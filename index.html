@@ -132,16 +132,17 @@
     margin-bottom:6px;
   }
   .hero h1{ font-size:clamp(28px,7vw,42px); line-height:1.25; max-width:520px; margin:0 auto 22px; }
-  .hero .anniv-badge{
-    display:inline-flex; flex-direction:column; align-items:center;
-    justify-content:center; width:150px; height:150px; border-radius:50%;
-    background:radial-gradient(circle at 35% 30%, #fff6e8, var(--amber) 78%);
-    border:1px solid rgba(59,42,32,.12);
-    box-shadow: var(--shadow);
-    margin:6px auto 22px;
+  .anniv-badge{
+    display:flex; align-items:center; justify-content:center;
+    margin:10px auto 22px;
   }
-  .anniv-badge .num{font-family:var(--serif-display); font-size:52px; color:#fff; text-shadow:0 2px 6px rgba(163,74,50,.35);}
-  .anniv-badge .lbl{font-size:13px; color:#fff; letter-spacing:.02em;}
+  .badge-svg{ width:158px; height:158px; filter:drop-shadow(0 10px 20px rgba(163,74,50,.28)); }
+  .badge-ring-outer{ fill:url(#badgeGrad); stroke:var(--brick); stroke-width:2; }
+  .badge-ring-inner{ fill:none; stroke:var(--amber); stroke-width:1.2; stroke-dasharray:2 5; opacity:.8; }
+  .badge-leaf{ fill:var(--sage); }
+  .badge-ornament{ fill:var(--amber-deep); }
+  .badge-num{ font-family:var(--serif-display); fill:var(--brick); font-size:56px; }
+  .badge-label{ fill:var(--ink-soft); font-family:var(--serif-body); font-size:12.5px; letter-spacing:3px; }
   .hero .grad{ font-size:16px; color:var(--ink-soft); margin-bottom:26px; }
   .hero .grad b{color:var(--brick); font-weight:700;}
   .hero .date-chip{
@@ -183,20 +184,26 @@
 
   /* Invitation */
   .verse{
-    font-family:var(--serif-body); font-style:italic; color:var(--ink);
-    font-size:18px; line-height:1.9; margin-bottom:20px;
+    font-family:var(--script); color:var(--brick);
+    font-size:clamp(22px,5.6vw,27px); line-height:1.55; letter-spacing:.01em;
+    text-align:center; margin:6px 0 26px; position:relative; padding:6px 10px 0;
   }
+  .verse .q{ display:block; font-size:34px; color:var(--sage); line-height:0; margin-bottom:8px; opacity:.7; }
+  .verse-body p{ font-family:var(--serif-body); font-size:16.5px; color:var(--ink); }
   .signoff{ text-align:right; font-family:var(--script); font-size:22px; color:var(--brick); margin-top:16px;}
 
   /* Teachers */
-  .teacher-list{ list-style:none; padding:0; margin:0; display:grid; gap:10px; }
-  .teacher-list li{
-    display:flex; align-items:center; gap:12px;
-    background:#fff; border-radius:12px; padding:13px 16px;
-    box-shadow:0 3px 10px rgba(59,42,32,.06);
-    font-size:16px;
+  .teacher-grid{
+    display:grid; grid-template-columns:1fr 1fr; gap:8px 6px; margin-top:8px;
   }
-  .teacher-list .leaf{ width:16px; height:16px; flex:none; color:var(--sage); }
+  @media (max-width:480px){ .teacher-grid{ grid-template-columns:1fr; } }
+  .teacher-card{ text-align:center; padding:22px 12px; }
+  .teacher-card .name{
+    font-family:var(--serif-display); font-size:19px; color:var(--brick);
+    line-height:1.35;
+  }
+  .teacher-card .role{ font-size:12.5px; color:var(--ink-soft); letter-spacing:.05em; margin-top:5px; text-transform:uppercase; }
+  .teacher-card .rule{ width:30px; height:1px; background:var(--sage); margin:12px auto 0; opacity:.8; }
 
   /* Countdown */
   .countdown-wrap{ text-align:center; }
@@ -249,19 +256,33 @@
     position:relative; border-radius:14px; overflow:hidden; aspect-ratio:4/5;
     background:linear-gradient(150deg,var(--paper-soft),#fff);
     border:1px solid var(--line);
-    display:flex; align-items:center; justify-content:center;
     box-shadow:0 6px 16px rgba(59,42,32,.08);
   }
   .gallery .frame:nth-child(3n+1){ transform:rotate(-1.4deg); }
   .gallery .frame:nth-child(3n+2){ transform:rotate(1.2deg); }
-  .gallery .frame img{ width:100%; height:100%; object-fit:cover; }
+  .gallery .frame img{
+    position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
+    display:none; /* revealed by JS only once the real photo loads */
+  }
   .gallery .frame .ph{
+    position:absolute; inset:0;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
     text-align:center; color:var(--ink-soft); font-size:13px; padding:10px;
   }
   .gallery .frame .ph code{
     display:block; background:var(--paper); border-radius:8px; padding:5px 8px; margin-top:6px;
     font-size:11.5px; color:var(--brick); border:1px dashed var(--line);
   }
+
+  /* Comments feed (pulled from the Form's linked Google Sheet, published as CSV) */
+  .comments-feed{ display:grid; gap:12px; margin-bottom:22px; }
+  .comment-card{
+    background:#fff; border-radius:14px; padding:16px 18px;
+    box-shadow:0 4px 12px rgba(59,42,32,.07); border:1px solid rgba(59,42,32,.06);
+  }
+  .comment-card p{ margin:0 0 6px; font-style:italic; color:var(--ink); }
+  .comment-card span{ font-family:var(--script); font-size:17px; color:var(--brick); }
+  .comments-empty{ color:var(--ink-soft); font-size:14px; text-align:center; padding:6px 0 18px; }
 
   /* RSVP / form */
   .form-frame-wrap{
@@ -305,7 +326,7 @@
     <span class="bar" style="height:4px;"></span><span class="bar" style="height:4px;"></span><span class="bar" style="height:4px;"></span>
   </span>
 </button>
-<audio id="bgAudio" src="assets/audio/music.mp3" loop preload="none"></audio>
+<audio id="bgAudio" preload="auto"></audio>
 
 <!-- quick nav dots -->
 <nav class="quicknav" id="quicknav">
@@ -324,8 +345,41 @@
   <h1>Жаргалтхаан сумын<br>Ерөнхий Боловсролын Сургууль</h1>
 
   <div class="anniv-badge">
-    <span class="num">90</span>
-    <span class="lbl">жилийн ой</span>
+    <svg class="badge-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="badgeGrad" cx="35%" cy="28%" r="80%">
+          <stop offset="0%" stop-color="#FFF8EC"/>
+          <stop offset="100%" stop-color="#F3E7D4"/>
+        </radialGradient>
+      </defs>
+      <circle class="badge-ring-outer" cx="100" cy="100" r="94"/>
+      <circle class="badge-ring-inner" cx="100" cy="100" r="80"/>
+
+      <!-- laurel branch, left -->
+      <g class="badge-leaf">
+        <ellipse cx="62" cy="150" rx="7" ry="16" transform="rotate(-70 62 150)"/>
+        <ellipse cx="46" cy="130" rx="7" ry="16" transform="rotate(-48 46 130)"/>
+        <ellipse cx="38" cy="107" rx="7" ry="16" transform="rotate(-25 38 107)"/>
+        <ellipse cx="36" cy="83" rx="7" ry="16" transform="rotate(0 36 83)"/>
+        <ellipse cx="43" cy="60" rx="7" ry="16" transform="rotate(25 43 60)"/>
+        <ellipse cx="58" cy="42" rx="7" ry="16" transform="rotate(48 58 42)"/>
+      </g>
+      <!-- laurel branch, right (mirrored) -->
+      <g class="badge-leaf">
+        <ellipse cx="138" cy="150" rx="7" ry="16" transform="rotate(70 138 150)"/>
+        <ellipse cx="154" cy="130" rx="7" ry="16" transform="rotate(48 154 130)"/>
+        <ellipse cx="162" cy="107" rx="7" ry="16" transform="rotate(25 162 107)"/>
+        <ellipse cx="164" cy="83" rx="7" ry="16" transform="rotate(0 164 83)"/>
+        <ellipse cx="157" cy="60" rx="7" ry="16" transform="rotate(-25 157 60)"/>
+        <ellipse cx="142" cy="42" rx="7" ry="16" transform="rotate(-48 142 42)"/>
+      </g>
+
+      <!-- little ornament at top, echoes the section-divider mark -->
+      <path class="badge-ornament" d="M100 22C100 22 92 26 93.5 32C94.5 36 99 35 100 31C101 35 105.5 36 106.5 32C108 26 100 22 100 22Z"/>
+
+      <text class="badge-num" x="100" y="112" text-anchor="middle">90</text>
+      <text class="badge-label" x="100" y="140" text-anchor="middle">ЖИЛИЙН ОЙ</text>
+    </svg>
   </div>
 
   <p class="grad">Сургуулийн <b>14-р төгсөлт</b>ийнхөн<br>дурсамж уулзалт</p>
@@ -347,19 +401,22 @@
       <h2 class="section-title">Найз нартаа хүргэх дулаан урилга</h2>
       <div class="card">
         <p class="verse">
-          Богино банзал, урт гэзэгтэй байсан бидэнд,<br>
-          Бослого ч биш, буцалт ч биш, зөвхөн он жилүүд өнгөрчээ.<br>
-          Тэр л ангийн тавцан дээр дахин цугларч,<br>
-          Тэр л инээд, тэр л дулаанаа сэргээе гэж хүсэв.
+          <span class="q">“</span>
+          Тэр жилүүд нүднээс биш, зүрхнээс хэзээ ч холдоогүй,<br>
+          Ангийн цонхоор тусах нар шигээ дулаахан үлджээ.<br>
+          Хэдэн зам зөрж, хэдэн он жил өнгөрсөн ч,<br>
+          Энэ нэг өдөр бид дахин тэр л ангийн хүүхдүүд.
         </p>
-        <p>
-          Хэнтий аймгийн Жаргалтхаан сумын Ерөнхий боловсролын сургуулийн
-          <b>14-р төгсөлт</b>ийн төгсөгчид та бүхнийг төрөлх сургуулийнхаа
-          <b>90 жилийн ой</b>д зориулсан дурсамж уулзалтад чин сэтгэлээсээ урьж байна.
-          Хэдэн жил хараагүй ч, хэдэн зам зөрж явсан ч — энэ нэг өдөр бид дахин
-          нэг ангийн хүүхдүүд шүү.
-        </p>
-        <p class="signoff">Хүлээж байна — Зохион байгуулах баг</p>
+        <div class="verse-body">
+          <p>
+            Хэнтий аймгийн Жаргалтхаан сумын Ерөнхий боловсролын сургуулийн
+            <b>14-р төгсөлт</b>ийн төгсөгчид та бүхнийг төрөлх сургуулийнхаа
+            <b>90 жилийн ой</b>д зориулсан дурсамж уулзалтад чин сэтгэлээсээ урьж байна.
+            Хэдэн жил хараагүй ч, хэдэн зам зөрж явсан ч — энэ нэг өдөр бид дахин
+            нэг ангийн хүүхдүүд шүү.
+          </p>
+          <p class="signoff">Хүлээж байна — Зохион байгуулах баг</p>
+        </div>
       </div>
     </div>
   </section>
@@ -370,15 +427,24 @@
     <div class="section-inner">
       <span class="kicker">Багш нартаа</span>
       <h2 class="section-title">Эрхэм хүндэт багш нартаа</h2>
-      <p class="lede">Эхний үсэг зааж, амьдралын замд чиглүүлсэн ачит багш нартаа гүн хүндэтгэл илэрхийлье.</p>
-      <ul class="teacher-list">
-        <li><svg class="leaf" viewBox="0 0 24 24" fill="none"><path d="M12 21C12 21 4 15.5 4 9C4 5.7 6.7 3 10 3C12 3 12 5 12 5C12 5 12 3 14 3C17.3 3 20 5.7 20 9C20 15.5 12 21 12 21Z" fill="currentColor" opacity=".85"/></svg> С.Банзрагч багш</li>
-        <li><svg class="leaf" viewBox="0 0 24 24" fill="none"><path d="M12 21C12 21 4 15.5 4 9C4 5.7 6.7 3 10 3C12 3 12 5 12 5C12 5 12 3 14 3C17.3 3 20 5.7 20 9C20 15.5 12 21 12 21Z" fill="currentColor" opacity=".85"/></svg> Гийпэлмаа багш</li>
-        <li><svg class="leaf" viewBox="0 0 24 24" fill="none"><path d="M12 21C12 21 4 15.5 4 9C4 5.7 6.7 3 10 3C12 3 12 5 12 5C12 5 12 3 14 3C17.3 3 20 5.7 20 9C20 15.5 12 21 12 21Z" fill="currentColor" opacity=".85"/></svg> С.Лхамсүрэн багш</li>
-        <li><svg class="leaf" viewBox="0 0 24 24" fill="none"><path d="M12 21C12 21 4 15.5 4 9C4 5.7 6.7 3 10 3C12 3 12 5 12 5C12 5 12 3 14 3C17.3 3 20 5.7 20 9C20 15.5 12 21 12 21Z" fill="currentColor" opacity=".85"/></svg> Д.Мөнхчулуун багш</li>
-        <li><svg class="leaf" viewBox="0 0 24 24" fill="none"><path d="M12 21C12 21 4 15.5 4 9C4 5.7 6.7 3 10 3C12 3 12 5 12 5C12 5 12 3 14 3C17.3 3 20 5.7 20 9C20 15.5 12 21 12 21Z" fill="currentColor" opacity=".85"/></svg> С.Лхамсүрэн багш</li>
-        <li><svg class="leaf" viewBox="0 0 24 24" fill="none"><path d="M12 21C12 21 4 15.5 4 9C4 5.7 6.7 3 10 3C12 3 12 5 12 5C12 5 12 3 14 3C17.3 3 20 5.7 20 9C20 15.5 12 21 12 21Z" fill="currentColor" opacity=".85"/></svg> Л.Цэцгээ багш</li>
-      </ul>
+      <p class="lede">
+        Бидний мэдлэгийн үндэс, хүн болохын эхлэлийг тавьж өгсөн эрхэм багш нар минь ээ!
+        Таны хичээл, таны сургаал, таны энэрэнгүй харц өнөөдрийг хүртэл бидний зүрх
+        сэтгэлд амьд байсаар байна. Нүдийг маань нээж, гарыг маань хөтлөн сургаж,
+        амьдралын анхны бат бэх алхмуудыг хамт хийлцсэн танд бид үүрд талархах болно.
+        Энэ дурсамжит өдөр бид та бүхнийг гүнээ хүндэтгэн дурсаж, талархлын өчгөө
+        илэрхийлж байна.
+      </p>
+      <div class="card">
+        <div class="teacher-grid">
+          <div class="teacher-card"><div class="name">С.Банзрагч</div><div class="role">Багш</div><div class="rule"></div></div>
+          <div class="teacher-card"><div class="name">Гийпэлмаа</div><div class="role">Багш</div><div class="rule"></div></div>
+          <div class="teacher-card"><div class="name">С.Лхамсүрэн</div><div class="role">Багш</div><div class="rule"></div></div>
+          <div class="teacher-card"><div class="name">Д.Мөнхчулуун</div><div class="role">Багш</div><div class="rule"></div></div>
+          <div class="teacher-card"><div class="name">С.Лхамсүрэн</div><div class="role">Багш</div><div class="rule"></div></div>
+          <div class="teacher-card"><div class="name">Л.Цэцгээ</div><div class="role">Багш</div><div class="rule"></div></div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -443,12 +509,12 @@
       <h2 class="section-title">Зургийн цомог</h2>
       <p class="lede">Хуучин зургаа нэмээрэй — доорх нэрстэй файлыг assets/photos/ хавтсанд оруулхад автоматаар харагдана.</p>
       <div class="gallery">
-        <div class="frame"><img src="assets/photos/picSchool.jpg" alt="Сургуулийн байр" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'"><div class="ph" style="display:flex;flex-direction:column;justify-content:center;height:100%;"><span>Сургуулийн байр</span><code>picSchool.jpg</code></div></div>
-        <div class="frame"><img src="assets/photos/pic1stGrade.jpg" alt="Нэгдүгээр анги" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'"><div class="ph" style="display:flex;flex-direction:column;justify-content:center;height:100%;"><span>Нэгдүгээр анги</span><code>pic1stGrade.jpg</code></div></div>
-        <div class="frame"><img src="assets/photos/picFriends.jpg" alt="Ангийн найзууд" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'"><div class="ph" style="display:flex;flex-direction:column;justify-content:center;height:100%;"><span>Ангийн найзууд</span><code>picFriends.jpg</code></div></div>
-        <div class="frame"><img src="assets/photos/picGraduation.jpg" alt="Төгсөлт" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'"><div class="ph" style="display:flex;flex-direction:column;justify-content:center;height:100%;"><span>Төгсөлт</span><code>picGraduation.jpg</code></div></div>
-        <div class="frame"><img src="assets/photos/picTeachers.jpg" alt="Багш нартайгаа" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'"><div class="ph" style="display:flex;flex-direction:column;justify-content:center;height:100%;"><span>Багш нартайгаа</span><code>picTeachers.jpg</code></div></div>
-        <div class="frame"><img src="assets/photos/picClass.jpg" alt="Ангийн зураг" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'"><div class="ph" style="display:flex;flex-direction:column;justify-content:center;height:100%;"><span>Ангийн зураг</span><code>picClass.jpg</code></div></div>
+        <div class="frame"><img src="assets/photos/picSchool.jpg" alt="Сургуулийн байр" onload="this.style.display='block'; this.nextElementSibling.style.display='none'" onerror="this.style.display='none'"><div class="ph"><span>Сургуулийн байр</span><code>picSchool.jpg</code></div></div>
+        <div class="frame"><img src="assets/photos/pic1stGrade.jpg" alt="Нэгдүгээр анги" onload="this.style.display='block'; this.nextElementSibling.style.display='none'" onerror="this.style.display='none'"><div class="ph"><span>Нэгдүгээр анги</span><code>pic1stGrade.jpg</code></div></div>
+        <div class="frame"><img src="assets/photos/picFriends.jpg" alt="Ангийн найзууд" onload="this.style.display='block'; this.nextElementSibling.style.display='none'" onerror="this.style.display='none'"><div class="ph"><span>Ангийн найзууд</span><code>picFriends.jpg</code></div></div>
+        <div class="frame"><img src="assets/photos/picGraduation.jpg" alt="Төгсөлт" onload="this.style.display='block'; this.nextElementSibling.style.display='none'" onerror="this.style.display='none'"><div class="ph"><span>Төгсөлт</span><code>picGraduation.jpg</code></div></div>
+        <div class="frame"><img src="assets/photos/picTeachers.jpg" alt="Багш нартайгаа" onload="this.style.display='block'; this.nextElementSibling.style.display='none'" onerror="this.style.display='none'"><div class="ph"><span>Багш нартайгаа</span><code>picTeachers.jpg</code></div></div>
+        <div class="frame"><img src="assets/photos/picClass.jpg" alt="Ангийн зураг" onload="this.style.display='block'; this.nextElementSibling.style.display='none'" onerror="this.style.display='none'"><div class="ph"><span>Ангийн зураг</span><code>picClass.jpg</code></div></div>
       </div>
     </div>
   </section>
@@ -460,6 +526,16 @@
       <span class="kicker">Ирэхээ мэдэгдэх</span>
       <h2 class="section-title">Хэдүүлээ цуглахаа мэдэхийн тулд...</h2>
       <p class="lede">Нэрээ, ирэх эсэхээ бөгжийн маягтад бөглөж, хүсвэл сэтгэлийн үгээ үлдээгээрэй ♥</p>
+
+      <div id="commentsFeed" class="comments-feed"></div>
+      <p id="commentsEmpty" class="comments-empty" style="display:none;">Одоогоор сэтгэлийн үг алга байна — эхнийх нь та байгаарай!</p>
+
+      <div style="text-align:center; margin-bottom:26px;">
+        <a class="map-link" style="display:inline-flex;"
+           href="https://docs.google.com/spreadsheets/d/1V-vg4lee5yKEU_v1Ub5P_k3zFqkRqc7xwe1KQmob_oE/edit?usp=sharing#gid=1292436465"
+           target="_blank" rel="noopener">📋 Бүх сэтгэлийн үгсийг харах</a>
+      </div>
+
       <div class="form-frame-wrap">
         <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSciOB4zWW7MlzFF5YEP_H7UiTL5Dadwq9pXi2L4riRV-iUHkw/viewform?embedded=true" title="Ирэхээ мэдэгдэх маягт">Уншиж байна…</iframe>
       </div>
@@ -476,9 +552,10 @@
   <p class="contact">Холбоо барих — <b>Arjun Enkhbat</b> · 80660123</p>
 </footer>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 <script>
   // Countdown to Sept 11 2026 16:00 Ulaanbaatar time (UTC+8)
-  var target = new Date("2026-09-11T14:00:00+08:00").getTime();
+  var target = new Date("2026-09-11T16:00:00+08:00").getTime();
   function tick(){
     var now = Date.now();
     var diff = Math.max(0, target - now);
@@ -494,17 +571,47 @@
   }
   tick(); setInterval(tick, 1000);
 
-  // Music toggle
+  // ---- Music playlist: add as many songs as you want here, they repeat in order forever ----
+  var playlist = [
+    "assets/audio/music.mp3",
+    "assets/audio/music1.mp3",
+    "assets/audio/music2.mp3"
+    // "assets/audio/music3.mp3",  <- uncomment / add more lines like this
+  ];
   var btn = document.getElementById('musicBtn');
   var audio = document.getElementById('bgAudio');
+  var trackIndex = 0;
+  audio.loop = false; // looping is handled manually so it can move to the next song
+
+  function loadTrack(i){ audio.src = playlist[i % playlist.length]; }
+  loadTrack(trackIndex);
+
+  audio.addEventListener('ended', function(){
+    trackIndex = (trackIndex + 1) % playlist.length;
+    loadTrack(trackIndex);
+    audio.play().catch(function(){});
+  });
+  audio.addEventListener('play', function(){ btn.classList.remove('paused'); });
+  audio.addEventListener('pause', function(){ btn.classList.add('paused'); });
+
+  // Try to autoplay as soon as the page opens. Most mobile browsers block
+  // audio-with-sound autoplay until the visitor has interacted with the page
+  // at least once, so if the first attempt is blocked, we start it on the
+  // visitor's very first tap/click anywhere on the page instead.
+  function attemptPlay(){ return audio.play(); }
+  attemptPlay().catch(function(){
+    var startOnFirstTouch = function(){
+      attemptPlay().catch(function(){});
+      document.removeEventListener('click', startOnFirstTouch);
+      document.removeEventListener('touchstart', startOnFirstTouch);
+    };
+    document.addEventListener('click', startOnFirstTouch, {once:true});
+    document.addEventListener('touchstart', startOnFirstTouch, {once:true});
+  });
+
   btn.addEventListener('click', function(){
-    if(audio.paused){
-      audio.play().catch(function(){});
-      btn.classList.remove('paused');
-    } else {
-      audio.pause();
-      btn.classList.add('paused');
-    }
+    if(audio.paused){ audio.play().catch(function(){}); }
+    else { audio.pause(); }
   });
 
   // Quick nav active state
@@ -520,6 +627,63 @@
   }
   document.addEventListener('scroll', onScroll, {passive:true});
   onScroll();
+
+  // ---- Show people's comments from the linked Google Sheet ----
+  // How to enable: in your Google Form, open "Responses" tab -> click the green
+  // Sheets icon to create a linked spreadsheet -> in that Sheet go to
+  // File > Share > Publish to web -> choose the response sheet, format CSV -> Publish.
+  // Paste the URL it gives you below (looks like ".../pub?gid=...&single=true&output=csv").
+  // Column matching is automatic — it reads your Sheet's header row and looks for
+  // a name-like column and a message-like column, so you don't need to configure indices.
+  var COMMENTS_CSV_URL = "https://docs.google.com/spreadsheets/d/1V-vg4lee5yKEU_v1Ub5P_k3zFqkRqc7xwe1KQmob_oE/edit?usp=sharing"; // <-- paste your published CSV link here
+
+  if(COMMENTS_CSV_URL){
+    var bustedUrl = COMMENTS_CSV_URL + (COMMENTS_CSV_URL.indexOf('?') > -1 ? '&' : '?') + 'cachebust=' + Date.now();
+    fetch(bustedUrl)
+      .then(function(r){
+        if(!r.ok) throw new Error('HTTP ' + r.status + ' fetching CSV');
+        return r.text();
+      })
+      .then(function(csvText){
+        var parsed = Papa.parse(csvText.trim(), {header:true, skipEmptyLines:true});
+        var rows = parsed.data;
+        var headers = parsed.meta.fields || [];
+        console.log('[Сэтгэлийн үг] detected columns:', headers);
+        console.log('[Сэтгэлийн үг] row count:', rows.length);
+
+        var nameKey = headers.find(function(h){ return /нэр|name/i.test(h); }) || headers[1] || headers[0];
+        var msgKey = headers.find(function(h){ return /сэтгэл|үг|мэдэгдэл|зурвас|сэтгэгдэл|message|comment/i.test(h); });
+        if(!msgKey){
+          // fall back to the last column, which is usually the free-text field
+          msgKey = headers[headers.length - 1];
+        }
+        console.log('[Сэтгэлийн үг] using name column:', nameKey, '| message column:', msgKey);
+
+        var feed = document.getElementById('commentsFeed');
+        var empty = document.getElementById('commentsEmpty');
+        var shown = 0;
+        rows.slice(-10).reverse().forEach(function(row){
+          var name = (row[nameKey] || '').trim();
+          var msg = (row[msgKey] || '').trim();
+          if(!msg) return;
+          var card = document.createElement('div');
+          card.className = 'comment-card';
+          card.innerHTML = '<p>\u201C' + msg.replace(/</g,'&lt;') + '\u201D</p><span>\u2014 ' + (name.replace(/</g,'&lt;') || 'Нэргүй') + '</span>';
+          feed.appendChild(card);
+          shown++;
+        });
+        if(shown === 0){
+          empty.textContent = 'Одоогоор сэтгэлийн үг алга байна — эхнийх нь та байгаарай!';
+          empty.style.display = 'block';
+        }
+      })
+      .catch(function(err){
+        console.error('[Сэтгэлийн үг] could not load comments:', err);
+        var empty = document.getElementById('commentsEmpty');
+        empty.textContent = 'Сэтгэлийн үг ачаалахад алдаа гарлаа (холбоосоо шалгана уу).';
+        empty.style.display = 'block';
+      });
+  }
 </script>
 
 </body>
