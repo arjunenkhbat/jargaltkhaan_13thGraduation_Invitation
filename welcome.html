@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Жаргалтхаан ЕБС - 90 Жилийн Ой & 14-р Төгсөлт</title>
+  <style>
+    :root {
+      --bg-color: #fdfbf7;
+      --text-color: #2c2c2c;
+      --accent-color: #8b1d1d;
+      --gold-color: #c5a059;
+      --card-bg: #ffffff;
+      --font-family: 'Georgia', serif, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      font-family: var(--font-family);
+      line-height: 1.6;
+      text-align: center;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Floating Butterflies Animation */
+    .butterfly {
+      position: fixed;
+      width: 25px;
+      height: 25px;
+      background: rgba(197, 160, 89, 0.6);
+      clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 50% 75%, 18% 100%, 0% 38%);
+      animation: float 12s infinite linear;
+      z-index: 99;
+      pointer-events: none;
+    }
+    @keyframes float {
+      0% { transform: translate(0, 100vh) rotate(0deg); opacity: 0; }
+      20% { opacity: 0.8; }
+      80% { opacity: 0.8; }
+      100% { transform: translate(80vw, -10vh) rotate(360deg); opacity: 0; }
+    }
+
+    /* Navigation Bar */
+    nav {
+      position: sticky;
+      top: 0;
+      background: rgba(253, 251, 247, 0.95);
+      backdrop-filter: blur(5px);
+      border-bottom: 1px solid rgba(0,0,0,0.1);
+      padding: 10px 0;
+      z-index: 1000;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+    nav a {
+      color: var(--accent-color);
+      text-decoration: none;
+      margin: 0 10px;
+      font-size: 0.9rem;
+      font-weight: bold;
+    }
+
+    /* Music Player Floating Button */
+    .music-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: var(--accent-color);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      z-index: 1001;
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 60px 20px;
+      background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('hero-bg.jpg') center/cover;
+      color: white;
+      border-bottom: 3px solid var(--gold-color);
+    }
+    .hero h1 { font-size: 2.2rem; margin-bottom: 10px; }
+    .hero .badge { font-size: 3rem; color: var(--gold-color); font-weight: bold; }
+
+    /* Sections General */
+    section {
+      padding: 50px 20px;
+      max-width: 800px;
+      margin: 0 auto;
+      border-bottom: 1px solid #e5e0d8;
+    }
+    section h2 {
+      color: var(--accent-color);
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+      position: relative;
+    }
+    section h2::after {
+      content: '✦';
+      display: block;
+      color: var(--gold-color);
+      font-size: 1rem;
+      margin-top: 5px;
+    }
+
+    /* Countdown Clock */
+    .countdown-timer {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 20px;
+    }
+    .time-box {
+      background: var(--card-bg);
+      padding: 10px 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      min-width: 65px;
+    }
+    .time-box span {
+      display: block;
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: var(--accent-color);
+    }
+
+    /* Program Timeline */
+    .timeline {
+      text-align: left;
+      margin-top: 20px;
+    }
+    .day-card {
+      background: var(--card-bg);
+      padding: 20px;
+      border-left: 4px solid var(--accent-color);
+      margin-bottom: 15px;
+      border-radius: 4px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+    .day-card h4 { color: var(--accent-color); margin-bottom: 10px; }
+
+    /* Gallery */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-top: 20px;
+    }
+    .gallery-grid img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 6px;
+      border: 2px solid var(--gold-color);
+    }
+
+    /* Forms & Comments */
+    iframe {
+      width: 100%;
+      height: 500px;
+      border: none;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    /* Footer */
+    footer {
+      background: #1a1a1a;
+      color: #ccc;
+      padding: 30px 20px;
+      font-size: 0.9rem;
+    }
+    footer a { color: var(--gold-color); text-decoration: none; }
+  </style>
+</head>
+<body>
+
+  <!-- Floating Butterflies -->
+  <div class="butterfly" style="left: 10%; animation-delay: 0s;"></div>
+  <div class="butterfly" style="left: 50%; animation-delay: 4s;"></div>
+  <div class="butterfly" style="left: 80%; animation-delay: 8s;"></div>
+
+  <!-- Background Audio -->
+  <audio id="bg-audio" loop src="background-music.mp3"></audio>
+  <button class="music-btn" onclick="toggleAudio()">🎵</button>
+
+  <!-- Sticky Navigation -->
+  <nav>
+    <a href="#urilga">Урилга</a>
+    <a href="#teachers">Багш нартаа</a>
+    <a href="#memory">Гэгээн дурсгалд</a>
+    <a href="#dursahui">Дурсахуй</a>
+    <a href="#when">Хэзээ</a>
+    <a href="#program">Хөтөлбөр</a>
+    <a href="#where">Хаана</a>
+    <a href="#photos">Зураг</a>
+    <a href="#comments">Сэтгэлийн үг</a>
+    <a href="#rsvp">Ирэхээ мэдэгдэх</a>
+  </nav>
+
+  <!-- Hero Header -->
+  <header class="hero">
+    <p>Хэнтий аймаг · Жаргалтхаан сум</p>
+    <h1>Жаргалтхаан сумын<br>Ерөнхий боловсролын сургууль</h1>
+    <div class="badge">90</div>
+    <p>жилийн ой & 14-р төгсөлтийн дурсамж уулзалт</p>
+    <p><strong>2026.09.11 — 2026.09.13</strong></p>
+  </header>
+
+  <!-- 1. Урилга -->
+  <section id="urilga">
+    <h2>01. Урилга</h2>
+    <p><i>Арван хэдтэй балчир насандаа<br>Альбом цомогт дүрээ үлдээгээд,<br>Ажил амьдралын замд гарсан шигээ<br>Ахин нэг ангиараа уулзацгаая.</i></p>
+    <br>
+    <p>Хэнтий аймгийн Жаргалтхаан сумын Ерөнхий боловсролын сургуулийн 14-р төгсөлтийн төгсөгчид та бүхнийг төрөлх сургуулийн 90 жилийн ой, төгсөгчдийн дурсамж уулзалтандаа хүрэлцэн ирэхийг урьж байна.</p>
+  </section>
+
+  <!-- 2. Багш нартаа -->
+  <section id="teachers">
+    <h2>02. Багш нартаа</h2>
+    <p>Эхний үсэг зааж, эрдмийн их замд хөтөлсөн, амьдралын замд чиглүүлсэн ачит багш нартаа баярлалаа.</p>
+    <ul style="list-style: none; margin-top: 15px;">
+      <li>❖ Багш нарын нэрс...</li>
+    </ul>
+  </section>
+
+  <!-- 3. Гэгээн дурсгалд нь -->
+  <section id="memory">
+    <h2>03. Гэгээн дурсгалд нь</h2>
+    <p>Эрдмийн их өргөөнөөс, их амьдралын зүгийг минь гэрэлтүүлсэн эрхэм багш нарынхаа гэгээн дурсгалыг хүндэтгэж нэг хором дурсан бодоорой.</p>
+  </section>
+
+  <!-- 4. Дурсахуй -->
+  <section id="dursahui">
+    <h2>04. Дурсахуй</h2>
+    <p>Тэнгэрийн оронд одсон ангийн андууддаа...</p>
+    <p>Насан багын гэгээхэн он жилүүдийг хамтдаа туулж, нандин дурсамжийг хамтдаа бүтээлцсэн эрхэм андуудыгаа хүндэтгэн дурсая.</p>
+  </section>
+
+  <!-- 5. Хэзээ & Countdown Clock -->
+  <section id="when">
+    <h2>05. Хэзээ</h2>
+    <p><strong>2026 оны 9 дүгээр сарын 11 — 13-ны өдөр</strong></p>
+    <p>Баасан гараг · 14:00 цагт Баярын хурал</p>
+    
+    <div class="countdown-timer">
+      <div class="time-box"><span id="days">00</span>өдөр</div>
+      <div class="time-box"><span id="hours">00</span>цаг</div>
+      <div class="time-box"><span id="minutes">00</span>мин</div>
+      <div class="time-box"><span id="seconds">00</span>сек</div>
+    </div>
+  </section>
+
+  <!-- 6. Хөтөлбөр -->
+  <section id="program">
+    <h2>06. Хөтөлбөр</h2>
+    <div class="timeline">
+      <div class="day-card">
+        <h4>09.11 — Баасан гараг</h4>
+        <p>14:00 — Баярын хурал</p>
+        <p>16:00 — Хүндэтгэлийн тоглолт</p>
+        <p>20:00 — Үдшийн цэнгүүн</p>
+      </div>
+      <div class="day-card">
+        <h4>09.12 — Бямба гараг</h4>
+        <p>10:00 — 90 жилийн ойн нээлтийн арга хэмжээ</p>
+        <p>13:00 — Дурсамж чөлөөт арга хэмжээ, Нэгдсэн зураг авахуулах</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Хаана -->
+  <section id="where">
+    <h2>07. Хаана</h2>
+    <p><strong>Жаргалтхаан сумын ЕБС</strong></p>
+    <p>Хэнтий аймаг · Жаргалтхаан сум</p>
+    <br>
+    <a href="https://www.google.com/maps/search/?api=1&query=Жаргалтхаан+сум,+Хэнтий" target="_blank" style="color: var(--accent-color);">📍 Google Maps дээр байршил харах</a>
+  </section>
+
+  <!-- 8. Zuraag Part -->
+  <section id="photos">
+    <h2>08. Дурсамж зураг</h2>
+    <div class="gallery-grid">
+      <img src="photo1.jpg" alt="1-р анги">
+      <img src="photo2.jpg" alt="Төгсөлтийн зураг">
+    </div>
+  </section>
+
+  <!-- 9 & 10. Сэтгэлийн үг & Ирэхээ мэдэгдэх (Free Google Forms Integration) -->
+  <section id="comments">
+    <h2>09. Сэтгэлийн үг & Ирэхээ мэдэгдэх</h2>
+    <p>Бидэнд сэтгэлийн үгээ үлдээж, ирэх эсэхээ мэдэгдээрэй!</p>
+    <br>
+    <!-- Replace the src link below with your free Google Form Embed Link -->
+    <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSc_EXAMPLE/viewform?embedded=true">Unloading...</iframe>
+  </section>
+
+  <!-- Footer with Contact Info -->
+  <footer>
+    <p><strong>Зохион байгуулагч / Холбоо барих:</strong></p>
+    <p>Arjun Enkhbat: <a href="tel:80660123">80660123</a></p>
+  </footer>
+
+  <!-- Scripts -->
+  <script>
+    // Audio Toggle
+    function toggleAudio() {
+      const audio = document.getElementById("bg-audio");
+      if (audio.paused) {
+        audio.play();
+      } else {
+        audio.pause();
+      }
+    }
+
+    // Countdown Timer Logic
+    const eventDate = new Date("Sep 11, 2026 14:00:00").getTime();
+    setInterval(function() {
+      const now = new Date().getTime();
+      const distance = eventDate - now;
+
+      if (distance > 0) {
+        document.getElementById("days").innerText = Math.floor(distance / (1000 * 60 * 60 * 24));
+        document.getElementById("hours").innerText = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        document.getElementById("minutes").innerText = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        document.getElementById("seconds").innerText = Math.floor((distance % (1000 * 60)) / 1000);
+      }
+    }, 1000);
+  </script>
+</body>
+</html>
