@@ -635,7 +635,7 @@
   // Paste the URL it gives you below (looks like ".../pub?gid=...&single=true&output=csv").
   // Column matching is automatic — it reads your Sheet's header row and looks for
   // a name-like column and a message-like column, so you don't need to configure indices.
-  var COMMENTS_CSV_URL = "https://docs.google.com/spreadsheets/d/1V-vg4lee5yKEU_v1Ub5P_k3zFqkRqc7xwe1KQmob_oE/edit?usp=sharing"; // <-- paste your published CSV link here
+  var COMMENTS_CSV_URL = ""; // <-- paste your published CSV link here
 
   if(COMMENTS_CSV_URL){
     var bustedUrl = COMMENTS_CSV_URL + (COMMENTS_CSV_URL.indexOf('?') > -1 ? '&' : '?') + 'cachebust=' + Date.now();
